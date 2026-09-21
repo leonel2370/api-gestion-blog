@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: gestion-blog-api
+    runtime: docker
+    plan: free
+    healthCheckPath: /swagger-ui/index.html
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: blog-db
+          property: connectionString
+      - key: SPRING_DATASOURCE_USERNAME
+        fromDatabase:
+          name: blog-db
+          property: user
+      - key: SPRING_DATASOURCE_PASSWORD
+        fromDatabase:
+          name: blog-db
+          property: password
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+
+databases:
+  - name: blog-db
+    plan: free
+    databaseName: blogdb
+    user: blog
