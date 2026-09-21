@@ -1,0 +1,29 @@
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# Divers
+*.tmp
+
+# Secrets / environnement local (jamais versionne)
+.env
+.env.*
+!.env.example
+
+# Sujet et sauvegardes locales (hors depot)
+*.pdf
+.backup-squelette/
+src.old/
