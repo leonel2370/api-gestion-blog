@@ -41,7 +41,16 @@ docker compose up --build
 ```
 
 - API : http://localhost:8080
-- PostgreSQL : localhost:5432 (identifiants définis dans `.env`, jamais versionné)
+- PostgreSQL : localhost:5432 par défaut (port ajustable via `POSTGRES_HOST_PORT` dans `.env` si ce port est déjà occupé — identifiants jamais versionnés)
+
+> **Réseau restreint ?** Si le téléchargement de l'image `maven` n'aboutit pas,
+> construisez le jar sur l'hôte puis lancez le stack sans rebuild :
+>
+> ```bash
+> mvn package
+> docker build -f Dockerfile.slim -t gestion-blog-api:latest .
+> docker compose up --no-build
+> ```
 
 ## Documentation Swagger
 

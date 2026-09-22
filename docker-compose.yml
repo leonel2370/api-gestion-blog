@@ -19,6 +19,9 @@ services:
 
   api:
     build: .
+    # Nom fixe : permet de construire l'image hors-ligne (jar + temurin) puis
+    # de lancer "docker compose up --no-build" sans repasser par le build Maven
+    image: gestion-blog-api:latest
     container_name: blog-api
     depends_on:
       db:
