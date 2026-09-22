@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: blog-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?definir POSTGRES_DB dans .env}
+      POSTGRES_USER: ${POSTGRES_USER:?definir POSTGRES_USER dans .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?definir POSTGRES_PASSWORD dans .env}
+    ports:
+      # Port hôte configurable via .env (POSTGRES_HOST_PORT) si le 5432 local est occupé
+      - "${POSTGRES_HOST_PORT:-5432}:5432"
+    volumes:
+      - blog-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blog -d blogdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    # Nom fixe : permet de construire l'image hors-ligne (jar + temurin) puis
+    # de lancer "docker compose up --no-build" sans repasser par le build Maven
+    image: gestion-blog-api:latest
+    container_name: blog-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Bascule automatiquement l'API de H2 vers PostgreSQL
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:?definir SPRING_DATASOURCE_URL dans .env}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:?definir SPRING_DATASOURCE_USERNAME dans .env}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:?definir SPRING_DATASOURCE_PASSWORD dans .env}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO:-update}
+    ports:
+      - "8080:8080"
+
+volumes:
+  blog-pgdata:

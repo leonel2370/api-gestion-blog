@@ -1,0 +1,12 @@
+# Image runtime alternative : évite de télécharger l'image maven (~560 Mo),
+# utile quand l'accès réseau du daemon Docker est limité.
+#
+# Usage :
+#   mvn package
+#   docker build -f Dockerfile.slim -t gestion-blog-api:latest .
+#   docker compose up --no-build
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY target/gestion-blog-0.0.1-SNAPSHOT.jar /app/app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
