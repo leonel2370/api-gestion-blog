@@ -1,6 +1,6 @@
-# API de Gestion d'un Blog (Articles & Commentaires)
+# API de Gestion d'un Blog , Articles & Commentaires
 
-API REST développée avec **Spring Boot** permettant de publier des articles et d'ajouter des commentaires (Projet 4 — Java Spring Boot).
+API REST développée avec **Spring Boot** permettant de publier des articles et d'ajouter des commentaires .
 
 ## Fonctionnalités
 
